@@ -470,14 +470,26 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; margin: 0 0
   display: flex; justify-content: space-between; align-items: center;
   font-size: 0.8rem; color: #777;
 }
-.payments { display: flex; gap: 10px; }
-.payments span {
-  background: rgba(255,255,255,0.06);
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+/* Payment Logos */
+
+.payments {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.payments img {
+  width: 72px;
+  height: 42px;
+  object-fit: contain;
+  background: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: transform 0.3s ease;
+}
+.payments img:hover {
+  transform: translateY(-3px);
 }
 
 /* ---------- Responsive ---------- */

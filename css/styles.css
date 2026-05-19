@@ -307,7 +307,10 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; margin: 0 0
   display: flex; justify-content: center; gap: 12px;
   margin-top: 16px;
 }
-.tab-nav a {
+.tab-nav button {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -315,11 +318,19 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; margin: 0 0
   border-radius: 999px;
   background: transparent;
   color: var(--color-text-soft);
-  transition: background .2s, color .2s;
+  transition: background .2s, color .2s, transform .2s;
 }
-.tab-nav a.active, .tab-nav a:hover {
+.tab-nav button.active, .tab-nav button:hover {
   background: var(--color-dark);
   color: #fff;
+  transform: translateY(-1px);
+}
+.tab-nav button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+.featured-grid .product-card.is-hidden {
+  display: none;
 }
 
 /* ---------- Testimonial ---------- */

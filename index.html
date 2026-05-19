@@ -165,15 +165,15 @@
         <h2>Featured Items</h2>
         <p>Customer favorites — the bouquets people keep coming back for.</p>
         <nav class="tab-nav" aria-label="Featured categories">
-          <a href="#" class="active">All</a>
-          <a href="#">Roses</a>
-          <a href="#">Tulips</a>
-          <a href="#">Bouquets</a>
+          <button type="button" class="active" data-filter="all">All</button>
+          <button type="button" data-filter="roses">Roses</button>
+          <button type="button" data-filter="tulips">Tulips</button>
+          <button type="button" data-filter="bouquets">Bouquets</button>
         </nav>
       </header>
 
-      <div class="product-grid">
-        <article class="product-card">
+      <div class="product-grid featured-grid">
+        <article class="product-card" data-category="bouquets">
           <div class="product-media">
             <span class="badge badge-dark">Hot</span>
             <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=600&q=80" alt="Bright pink amaryllis" />
@@ -183,7 +183,7 @@
           <p class="price"><span class="price-now">$24.00</span> <span class="price-old">$30.00</span></p>
         </article>
 
-        <article class="product-card">
+        <article class="product-card" data-category="roses">
           <div class="product-media">
             <span class="badge badge-dark">Hot</span>
             <img src="https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=600&q=80" alt="Pink rose bouquet" />
@@ -193,7 +193,7 @@
           <p class="price"><span class="price-now">$39.00</span> <span class="price-old">$45.00</span></p>
         </article>
 
-        <article class="product-card">
+        <article class="product-card" data-category="bouquets">
           <div class="product-media">
             <span class="badge badge-dark">Sale</span>
             <img src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=600&q=80" alt="Soft pink peony" />
@@ -203,7 +203,7 @@
           <p class="price"><span class="price-now">$34.00</span> <span class="price-old">$42.00</span></p>
         </article>
 
-        <article class="product-card">
+        <article class="product-card" data-category="roses">
           <div class="product-media">
             <span class="badge badge-dark">New</span>
             <img src="https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=600&q=80" alt="Single white rose" />
@@ -213,7 +213,7 @@
           <p class="price"><span class="price-now">$22.00</span></p>
         </article>
 
-        <article class="product-card">
+        <article class="product-card" data-category="roses">
           <div class="product-media">
             <img src="https://images.unsplash.com/photo-1496062031456-07b8f162a322?w=600&q=80" alt="Deep red roses" />
           </div>
@@ -222,7 +222,7 @@
           <p class="price"><span class="price-now">$36.00</span></p>
         </article>
 
-        <article class="product-card">
+        <article class="product-card" data-category="bouquets">
           <div class="product-media">
             <img src="https://plants.gardenworks.ca/Content/Images/Photos/J859-03.jpg" alt="Purple aster flower" />
           </div>
@@ -231,7 +231,7 @@
           <p class="price"><span class="price-now">$28.00</span></p>
         </article>
 
-        <article class="product-card">
+        <article class="product-card" data-category="bouquets">
           <div class="product-media">
             <img src="https://images.unsplash.com/photo-1487070183336-b863922373d4?w=600&q=80" alt="Pink ranunculus" />
           </div>
@@ -240,7 +240,7 @@
           <p class="price"><span class="price-now">$25.00</span></p>
         </article>
 
-        <article class="product-card">
+        <article class="product-card" data-category="tulips">
           <div class="product-media">
             <span class="badge badge-dark">Sale</span>
             <img src="https://images.unsplash.com/photo-1520763185298-1b434c919102?w=600&q=80" alt="Tulip stem" />
@@ -474,6 +474,25 @@
 
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll(); // run once on load
+
+      // Featured items category filter
+      const filterButtons = document.querySelectorAll('#featured .tab-nav button');
+      const featuredCards = document.querySelectorAll('#featured .featured-grid .product-card');
+
+      filterButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          const selectedCategory = button.dataset.filter;
+
+          filterButtons.forEach(function (btn) {
+            btn.classList.toggle('active', btn === button);
+          });
+
+          featuredCards.forEach(function (card) {
+            const shouldShow = selectedCategory === 'all' || card.dataset.category === selectedCategory;
+            card.classList.toggle('is-hidden', !shouldShow);
+          });
+        });
+      });
     })();
   </script>
 

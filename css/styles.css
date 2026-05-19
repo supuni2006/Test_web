@@ -1,6 +1,6 @@
 /* ---------- Design tokens ---------- */
 :root {
-  --color-bg: #ffffff;
+  --color-bg: linear-gradient(to right, #FFE3E1, #CFECF3);
   --color-muted: #f7f6f3;
   --color-text: #2b2b2b;
   --color-text-soft: #6b6b6b;
@@ -80,11 +80,17 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; margin: 0 0
 
 /* ---------- Header ---------- */
 .site-header {
-  background: #fff;
-  border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 1000;
+  background: linear-gradient(to right, #FFE3E1, #CFECF3);
+  transition: all 0.4s ease;
+}
+
+.site-header.scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
 }
 .header-inner {
   display: flex;
@@ -138,7 +144,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; margin: 0 0
 
 /* ---------- Hero ---------- */
 .hero {
-  background: linear-gradient(120deg, #f4f1ec 0%, #f9f0ea 100%);
+  background: linear-gradient(120deg, #F7F6D3 0%, #F7F6D3 100%);
   background-image: url("https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=1600&q=80");
   background-size: cover;
   background-position: center;
@@ -181,7 +187,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; margin: 0 0
   display: flex; align-items: center; justify-content: center;
   transition: background .2s;
 }
-.hero-arrow:hover { background: #fff; }
+.hero-arrow:hover { background: #F39EB6; }
 .hero-arrow.prev { left: 24px; }
 .hero-arrow.next { right: 24px; }
 
@@ -227,8 +233,14 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; margin: 0 0
   text-align: center;
   padding-bottom: 20px;
   transition: transform .25s ease, box-shadow .25s ease;
+
 }
-.product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.product-card:hover {
+  transform: translateY(-10px) scale(1.02);
+
+  box-shadow:
+    0 20px 40px #9CAFAA;
+}
 .product-media {
   background: var(--color-muted);
   position: relative;

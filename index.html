@@ -334,7 +334,7 @@
           <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?w=600&q=80" alt="Family celebrating with flowers" />
           <div class="blog-body">
             <h3>Flower Power</h3>
-            <p class="meta">By Editor · May 20 , 2026</p>
+            <p class="meta">By Editor · July 28, 2025</p>
             <p>Gift-giving guide: which blooms to send for which occasion, no guesswork needed...</p>
             <a href="#" class="read-more">Continue Reading →</a>
           </div>
@@ -414,20 +414,68 @@
 
     <div class="footer-bottom">
       <div class="container footer-bottom-inner">
-        <p>© 2026 Kngu. All rights reserved.</p>
+        <p>©️ 2025 Kngu. All rights reserved.</p>
         <div class="payments">
           <span>VISA</span><span>MC</span><span>AMEX</span><span>PayPal</span>
         </div>
       </div>
     </div>
   </footer>
-  <script>
-window.addEventListener("scroll", function () {
-  const navbar = document.querySelector(".site-header");
 
-  navbar.classList.toggle("scrolled", window.scrollY > 50);
-});
-</script>
+  <script>
+    (function () {
+      const NAV_MAP = [
+        { href: '#',             sectionId: null           }, // Home – top of page
+        { href: '#new-products', sectionId: 'new-products' },
+        { href: '#featured',     sectionId: 'featured'     },
+        { href: '#blog',         sectionId: 'blog'         },
+        { href: '#footer',       sectionId: 'footer'       },
+      ];
+
+      const navLinks = Array.from(
+        document.querySelectorAll('.main-nav a')
+      );
+
+      function setActive(href) {
+        navLinks.forEach(function (link) {
+          link.classList.toggle('active', link.getAttribute('href') === href);
+        });
+      }
+
+      function onScroll() {
+        const scrollY   = window.scrollY;
+        const winHeight = window.innerHeight;
+        const docHeight = document.documentElement.scrollHeight;
+
+        // If we're at the very bottom, activate Contact (footer).
+        if (scrollY + winHeight >= docHeight - 4) {
+          setActive('#footer');
+          return;
+        }
+
+        // Walk sections from bottom to top; activate the first one whose top
+        // edge has scrolled past 30% of the viewport.
+        const threshold = scrollY + winHeight * 0.30;
+        let activeHref = '#'; // default: Home
+
+        for (let i = NAV_MAP.length - 1; i >= 0; i--) {
+          const item = NAV_MAP[i];
+          if (!item.sectionId) continue;
+
+          const el = document.getElementById(item.sectionId);
+          if (el && el.getBoundingClientRect().top + scrollY <= threshold) {
+            activeHref = item.href;
+            break;
+          }
+        }
+
+        setActive(activeHref);
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll(); // run once on load
+    })();
+  </script>
 
 </body>
 </html>

@@ -26,7 +26,7 @@
         <span class="logo-text">Kngu</span>
       </a>
 
-      <nav class="main-nav" aria-label="Primary">
+      <nav class="main-nav" aria-label="Primary" id="main-nav">
         <ul>
           <li><a href="#" class="active">Home</a></li>
           <li><a href="#new-products">Shop</a></li>
@@ -37,14 +37,38 @@
       </nav>
 
       <div class="header-actions">
-        <input type="search" placeholder="Search flowers..." aria-label="Search" />
+        <input type="search" placeholder="Search flowers..." aria-label="Search" class="desktop-search" />
         <button class="icon-btn" aria-label="Account">👤</button>
         <button class="icon-btn cart-btn" aria-label="Cart">
           🛍️ <span class="cart-count">2</span>
         </button>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </header>
+
+  <!-- Mobile nav overlay -->
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay">
+    <nav class="mobile-nav">
+      <div class="mobile-nav-header">
+        <a href="#" class="logo">
+          <span class="logo-mark">❀</span>
+          <span class="logo-text">Kngu</span>
+        </a>
+        <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">✕</button>
+      </div>
+      <input type="search" placeholder="Search flowers..." aria-label="Search" class="mobile-search" />
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#new-products">Shop</a></li>
+        <li><a href="#featured">Featured</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#footer">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
 
   <!-- Hero -->
   <section class="hero">
@@ -54,6 +78,8 @@
         <h1>Happy Mother's Day</h1>
         <p>Hand-tied bouquets your mum will actually love — delivered fresh, the same day.</p>
         <a href="#new-products" class="btn btn-primary">Start Shopping</a>
+      </div>
+    </div>
   </section>
 
   <!-- Features bar -->
@@ -471,85 +497,11 @@
 
   <script>
     (function () {
-      const NAV_MAP = [
-        { href: '#',             sectionId: null           }, // Home – top of page
-        { href: '#new-products', sectionId: 'new-products' },
-        { href: '#featured',     sectionId: 'featured'     },
-        { href: '#blog',         sectionId: 'blog'         },
-        { href: '#footer',       sectionId: 'footer'       },
-      ];
-
-      const navLinks = Array.from(
-        document.querySelectorAll('.main-nav a')
-      );
-
-      function setActive(href) {
-        navLinks.forEach(function (link) {
-          link.classList.toggle('active', link.getAttribute('href') === href);
-        });
-      }
-
-      function onScroll() {
-        const scrollY   = window.scrollY;
-        const winHeight = window.innerHeight;
-        const docHeight = document.documentElement.scrollHeight;
-
-        // If we're at the very bottom, activate Contact (footer).
-        if (scrollY + winHeight >= docHeight - 4) {
-          setActive('#footer');
-          return;
-        }
-
-        // Walk sections from bottom to top; activate the first one whose top
-        // edge has scrolled past 30% of the viewport.
-        const threshold = scrollY + winHeight * 0.30;
-        let activeHref = '#'; // default: Home
-
-        for (let i = NAV_MAP.length - 1; i >= 0; i--) {
-          const item = NAV_MAP[i];
-          if (!item.sectionId) continue;
-
-          const el = document.getElementById(item.sectionId);
-          if (el && el.getBoundingClientRect().top + scrollY <= threshold) {
-            activeHref = item.href;
-            break;
-          }
-        }
-
-        setActive(activeHref);
-      }
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll(); // run once on load
-
-      // Featured items category filter
-      const filterButtons = document.querySelectorAll('#featured .tab-nav button');
-      const featuredCards = document.querySelectorAll('#featured .featured-grid .product-card');
-
-      filterButtons.forEach(function (button) {
-        button.addEventListener('click', function () {
-          const selectedCategory = button.dataset.filter;
-
-          filterButtons.forEach(function (btn) {
-            btn.classList.toggle('active', btn === button);
-          });
-
-          featuredCards.forEach(function (card) {
-            const shouldShow = selectedCategory === 'all' || card.dataset.category === selectedCategory;
-            card.classList.toggle('is-hidden', !shouldShow);
-          });
-        });
-      });
-    })();
-  </script>
-
-  <script>
-    (function () {
       // Hamburger / mobile nav
       const hamburger = document.getElementById('hamburger');
       const overlay   = document.getElementById('mobile-nav-overlay');
       const closeBtn  = document.getElementById('mobile-nav-close');
- 
+
       function openMenu() {
         overlay.classList.add('is-open');
         hamburger.setAttribute('aria-expanded', 'true');
@@ -570,14 +522,14 @@
       overlay.querySelectorAll('a').forEach(function(a) {
         a.addEventListener('click', closeMenu);
       });
- 
+
       // Header scroll effect
       const header = document.querySelector('.site-header');
       window.addEventListener('scroll', function () {
         header.classList.toggle('scrolled', window.scrollY > 40);
       }, { passive: true });
     })();
- 
+
     (function () {
       const NAV_MAP = [
         { href: '#',             sectionId: null           }, // Home – top of page
@@ -586,62 +538,62 @@
         { href: '#blog',         sectionId: 'blog'         },
         { href: '#footer',       sectionId: 'footer'       },
       ];
- 
+
       const navLinks = Array.from(
         document.querySelectorAll('.main-nav a')
       );
- 
+
       function setActive(href) {
         navLinks.forEach(function (link) {
           link.classList.toggle('active', link.getAttribute('href') === href);
         });
       }
- 
+
       function onScroll() {
         const scrollY   = window.scrollY;
         const winHeight = window.innerHeight;
         const docHeight = document.documentElement.scrollHeight;
- 
+
         // If we're at the very bottom, activate Contact (footer).
         if (scrollY + winHeight >= docHeight - 4) {
           setActive('#footer');
           return;
         }
- 
+
         // Walk sections from bottom to top; activate the first one whose top
         // edge has scrolled past 30% of the viewport.
         const threshold = scrollY + winHeight * 0.30;
         let activeHref = '#'; // default: Home
- 
+
         for (let i = NAV_MAP.length - 1; i >= 0; i--) {
           const item = NAV_MAP[i];
           if (!item.sectionId) continue;
- 
+
           const el = document.getElementById(item.sectionId);
           if (el && el.getBoundingClientRect().top + scrollY <= threshold) {
             activeHref = item.href;
             break;
           }
         }
- 
+
         setActive(activeHref);
       }
- 
+
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll(); // run once on load
- 
+
       // Featured items category filter
       const filterButtons = document.querySelectorAll('#featured .tab-nav button');
       const featuredCards = document.querySelectorAll('#featured .featured-grid .product-card');
- 
+
       filterButtons.forEach(function (button) {
         button.addEventListener('click', function () {
           const selectedCategory = button.dataset.filter;
- 
+
           filterButtons.forEach(function (btn) {
             btn.classList.toggle('active', btn === button);
           });
- 
+
           featuredCards.forEach(function (card) {
             const shouldShow = selectedCategory === 'all' || card.dataset.category === selectedCategory;
             card.classList.toggle('is-hidden', !shouldShow);

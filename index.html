@@ -543,5 +543,113 @@
     })();
   </script>
 
+  <script>
+    (function () {
+      // Hamburger / mobile nav
+      const hamburger = document.getElementById('hamburger');
+      const overlay   = document.getElementById('mobile-nav-overlay');
+      const closeBtn  = document.getElementById('mobile-nav-close');
+ 
+      function openMenu() {
+        overlay.classList.add('is-open');
+        hamburger.setAttribute('aria-expanded', 'true');
+        hamburger.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeMenu() {
+        overlay.classList.remove('is-open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        hamburger.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+      hamburger.addEventListener('click', openMenu);
+      closeBtn.addEventListener('click', closeMenu);
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) closeMenu();
+      });
+      overlay.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', closeMenu);
+      });
+ 
+      // Header scroll effect
+      const header = document.querySelector('.site-header');
+      window.addEventListener('scroll', function () {
+        header.classList.toggle('scrolled', window.scrollY > 40);
+      }, { passive: true });
+    })();
+ 
+    (function () {
+      const NAV_MAP = [
+        { href: '#',             sectionId: null           }, // Home – top of page
+        { href: '#new-products', sectionId: 'new-products' },
+        { href: '#featured',     sectionId: 'featured'     },
+        { href: '#blog',         sectionId: 'blog'         },
+        { href: '#footer',       sectionId: 'footer'       },
+      ];
+ 
+      const navLinks = Array.from(
+        document.querySelectorAll('.main-nav a')
+      );
+ 
+      function setActive(href) {
+        navLinks.forEach(function (link) {
+          link.classList.toggle('active', link.getAttribute('href') === href);
+        });
+      }
+ 
+      function onScroll() {
+        const scrollY   = window.scrollY;
+        const winHeight = window.innerHeight;
+        const docHeight = document.documentElement.scrollHeight;
+ 
+        // If we're at the very bottom, activate Contact (footer).
+        if (scrollY + winHeight >= docHeight - 4) {
+          setActive('#footer');
+          return;
+        }
+ 
+        // Walk sections from bottom to top; activate the first one whose top
+        // edge has scrolled past 30% of the viewport.
+        const threshold = scrollY + winHeight * 0.30;
+        let activeHref = '#'; // default: Home
+ 
+        for (let i = NAV_MAP.length - 1; i >= 0; i--) {
+          const item = NAV_MAP[i];
+          if (!item.sectionId) continue;
+ 
+          const el = document.getElementById(item.sectionId);
+          if (el && el.getBoundingClientRect().top + scrollY <= threshold) {
+            activeHref = item.href;
+            break;
+          }
+        }
+ 
+        setActive(activeHref);
+      }
+ 
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll(); // run once on load
+ 
+      // Featured items category filter
+      const filterButtons = document.querySelectorAll('#featured .tab-nav button');
+      const featuredCards = document.querySelectorAll('#featured .featured-grid .product-card');
+ 
+      filterButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          const selectedCategory = button.dataset.filter;
+ 
+          filterButtons.forEach(function (btn) {
+            btn.classList.toggle('active', btn === button);
+          });
+ 
+          featuredCards.forEach(function (card) {
+            const shouldShow = selectedCategory === 'all' || card.dataset.category === selectedCategory;
+            card.classList.toggle('is-hidden', !shouldShow);
+          });
+        });
+      });
+    })();
+  </script>
+
 </body>
 </html>

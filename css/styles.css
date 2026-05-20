@@ -561,3 +561,218 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; margin: 0 0
   }
 
 }
+
+/* ============================================================
+   MOBILE RESPONSIVENESS — full overhaul
+   ============================================================ */
+
+/* ---------- Hamburger button ---------- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  transition: background .2s;
+}
+.hamburger:hover { background: rgba(0,0,0,.06); }
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--color-text);
+  border-radius: 2px;
+  transition: transform .3s, opacity .3s;
+  transform-origin: center;
+}
+.hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ---------- Mobile nav overlay ---------- */
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+.mobile-nav-overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+.mobile-nav {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(320px, 85vw);
+  background: #fff;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transform: translateX(100%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+  overflow-y: auto;
+}
+.mobile-nav-overlay.is-open .mobile-nav {
+  transform: translateX(0);
+}
+.mobile-nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.mobile-nav-close {
+  background: none;
+  border: 1px solid var(--color-border);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text-soft);
+  transition: background .2s;
+}
+.mobile-nav-close:hover { background: #f0f0f0; }
+.mobile-search {
+  padding: 10px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  outline: none;
+  width: 100%;
+}
+.mobile-search:focus { border-color: var(--color-primary); }
+.mobile-nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mobile-nav ul li a {
+  display: block;
+  padding: 12px 4px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+  transition: color .2s, padding-left .2s;
+}
+.mobile-nav ul li a:hover {
+  color: var(--color-primary);
+  padding-left: 8px;
+}
+
+/* ---------- Breakpoint: tablet (≤ 900px) ---------- */
+@media (max-width: 900px) {
+  /* Show hamburger, hide desktop nav & search */
+  .hamburger { display: flex; }
+  .main-nav { display: none; }
+  .desktop-search { display: none; }
+
+  /* Header */
+  .header-inner { padding: 14px 16px; }
+
+  /* Hero */
+  .hero-inner { min-height: 380px; padding: 60px 16px; }
+  .hero h1 { font-size: 2.8rem; }
+
+  /* Features */
+  .features-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+  /* Product grid */
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+  /* Promo */
+  .promo-inner { grid-template-columns: 1fr; gap: 32px; }
+
+  /* Experts */
+  .experts-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+  /* Blog */
+  .blog-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+  /* Newsletter */
+  .newsletter-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .newsletter form { max-width: 100%; width: 100%; }
+}
+
+/* ---------- Breakpoint: mobile (≤ 600px) ---------- */
+@media (max-width: 600px) {
+  /* Section spacing */
+  .section { padding: 48px 0; }
+  .section-head { margin-bottom: 32px; }
+  .section-head h2 { font-size: 1.75rem; }
+
+  /* Announcement */
+  .announcement { font-size: 0.75rem; padding: 7px 12px; }
+
+  /* Hero */
+  .hero-inner { min-height: 300px; padding: 48px 16px; }
+  .hero h1 { font-size: 2.1rem; }
+  .hero p { font-size: 0.95rem; }
+  .hero-copy { max-width: 100%; }
+  .hero-arrow.prev { left: 10px; }
+  .hero-arrow.next { right: 10px; }
+
+  /* Features — single column */
+  .features { padding: 28px 0; }
+  .features-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .feature { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px; background: rgba(255,255,255,.5); border-radius: var(--radius); }
+  .feature-icon { width: 40px; height: 40px; font-size: 1rem; }
+
+  /* Product grid — 2 cols on phone, 1 on tiny */
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .product-card h3 { font-size: 0.85rem; margin: 10px 0 4px; }
+  .price { font-size: 0.85rem; }
+
+  /* Promo */
+  .promo { padding: 40px 0; }
+  .promo-copy h2 { font-size: 1.55rem; }
+  .promo-list { margin: 16px 0 20px; }
+
+  /* Tab nav — wrap */
+  .tab-nav { flex-wrap: wrap; gap: 8px; }
+  .tab-nav button { padding: 7px 14px; font-size: 0.75rem; }
+
+  /* Testimonial */
+  .testimonial { padding: 56px 0; }
+  .testimonial blockquote { font-size: 1.1rem; }
+
+  /* Experts */
+  .experts-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .expert img { width: 100px; height: 100px; }
+
+  /* Blog */
+  .blog-grid { grid-template-columns: 1fr; }
+  .blog-card img { aspect-ratio: 16/8; }
+  .blog-body { padding: 16px; }
+  .blog-body h3 { font-size: 1.1rem; }
+
+  /* Newsletter */
+  .newsletter { padding: 40px 0; }
+  .newsletter h2 { font-size: 1.3rem; }
+  .newsletter form { flex-direction: column; gap: 10px; }
+  .newsletter form .btn { width: 100%; text-align: center; }
+
+  /* Container padding */
+  .container { padding: 0 16px; }
+}
+
+/* ---------- Breakpoint: very small (≤ 380px) ---------- */
+@media (max-width: 380px) {
+  .product-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .experts-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero h1 { font-size: 1.85rem; }
+}
